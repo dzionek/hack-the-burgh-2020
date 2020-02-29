@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 import users.views
+import map.views
 
 # All pages we're using.
 urlpatterns = [
@@ -26,4 +27,7 @@ urlpatterns = [
     # users app
     path('register/', users.views.registration_view, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+
+    # map app
+    path('add-place/', map.views.add_place_view, name='add_new_place')
 ]
