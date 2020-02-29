@@ -1,14 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
+from .forms import RegistrationForm
+# Create your views here.
 
-def login(request):
-    """ login view """
-    return HttpResponse("Here will be the login page")
+def registration_view(request, *args, **kwargs):
+    form = RegistrationForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = RegistrationForm()
 
-def register(request):
-    """ register view """
-    return HttpResponse("Here will be the register page")
-
-def user(request):
-    return HttpResponse("Here user will configure its account")
+    context = {
+        'form': form
+    }
+    return render(request, 'users/registration.html', context)
