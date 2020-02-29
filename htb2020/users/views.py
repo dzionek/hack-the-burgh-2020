@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 
 def login(request):
+    """ login view """
     return HttpResponse("Here will be the login page")
 
 def register(request):
