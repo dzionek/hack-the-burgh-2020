@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import config
 from map.forms import AddPlaceForm
-from map import models as map_models
+from map.models import Patient
 # Create your views here.
 def add_place_view(request, *args, **kwargs):
     if request.user.is_authenticated:
@@ -10,9 +10,10 @@ def add_place_view(request, *args, **kwargs):
         if len(request.POST) > 1:
             location = request.POST['WHERE']
             time = request.POST['WHEN']
-            new_place = (location, time)
-
-            print(new_place)
+            new_place = [location, time]
+            for patient in Patient.objects.values():
+                if patient['user_id'] == request.user.id:
+                    patient['places_list'] += str(new_place)
 
         form = AddPlaceForm()
         context = {

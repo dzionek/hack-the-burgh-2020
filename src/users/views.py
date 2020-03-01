@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from django.contrib.auth import logout
 from .forms import RegistrationForm
 # Create your views here.
 
@@ -13,3 +14,8 @@ def registration_view(request, *args, **kwargs):
         'form': form
     }
     return render(request, 'users/registration.html', context)
+
+def logout_view(request):
+    context = {}
+    logout(request)
+    return render(request, '', context)

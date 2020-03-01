@@ -28,6 +28,7 @@ urlpatterns = [
     # users app
     path('register/', users.views.registration_view, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('logout/', users.views.logout_view, name='logout'),
 
     # map app
     path('add-place/', map.views.add_place_view, name='add_new_place'),

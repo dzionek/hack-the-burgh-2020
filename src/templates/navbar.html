@@ -1,5 +1,7 @@
+{% if user.is_authenticated %}
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 
-<nav> Navbar will be here :) </nav>
+<a href="../logout"> Log out </a>
+{% endif %}
