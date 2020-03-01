@@ -18,6 +18,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 import users.views
 import map.views
+import pages.views
 
 # All pages we're using.
 urlpatterns = [
@@ -30,5 +31,8 @@ urlpatterns = [
 
     # map app
     path('add-place/', map.views.add_place_view, name='add_new_place'),
-    path('global-map/', map.views.global_map_view, name='global_map')
+    path('global-map/', map.views.global_map_view, name='global_map'),
+
+    # pages app
+    path('', pages.views.home_view, name='add_new_place')
 ]

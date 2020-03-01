@@ -19,11 +19,11 @@ def add_place_view(request, *args, **kwargs):
         }
         return render(request, 'map/add-place.html', context)
     else:
-        return HttpResponseRedirect('/home')
+        return HttpResponseRedirect('/')
 
 def global_map_view(request, *args, **kwargs):
     if request.user.is_authenticated:
         context = {}
         return render(request, 'map/global-map.html', context)
     else:
-        return HttpResponseRedirect('/home')
+        return HttpResponseRedirect('/')
