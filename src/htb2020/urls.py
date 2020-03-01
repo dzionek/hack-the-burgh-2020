@@ -29,5 +29,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
 
     # map app
-    path('add-place/', map.views.add_place_view, name='add_new_place')
+    path('add-place/', map.views.add_place_view, name='add_new_place'),
+    path('global-map/', map.views.global_map_view, name='global_map')
 ]

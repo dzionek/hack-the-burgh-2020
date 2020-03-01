@@ -3,13 +3,37 @@
 {% load static %}
 
 {% block content %}
+
 <script type="text/javascript" src="{% static 'js/searchPlace.js' %}"></script>
-<div id="locationField">
-  <input id="autocomplete"
-         placeholder="Enter your address"
-         onFocus="geolocate()"
-         type="text"/>
-</div>
+<form method="post">
+  {% csrf_token %}
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 registration-form">
+          <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Add a place!</legend>
+          </fieldset>
+          <div id="locationField" class="form-group">
+            <p style="text-align:center"><b>WHERE</b></p>
+          <input id="autocomplete"
+                 placeholder="Enter your address"
+                 onFocus="geolocate()"
+                 type="text"
+                 class="form-group"
+                 style="width:100%"/>
+          </div>
+          <p style="text-align:center"><b>WHEN</b></p>
+          {{form}}
+          <div>
+            <button type="submit" class="btn btn-outline-info">Add</button>
+          </div>
+        </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
+</form>
+
 
 <!-- Note: The address components in this sample are typical. You might need to adjust them for
            the locations relevant to your app. For more information, see
