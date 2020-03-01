@@ -2,15 +2,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import config
 from map.forms import AddPlaceForm
+from map import models as map_models
 # Create your views here.
 def add_place_view(request, *args, **kwargs):
     if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = AddPlaceForm(request.POST)
-            if form.is_valid():
-                location = form.cleaned_data['location']
-                time = form.cleaned_data['time']
-                print(location, time)
+        # if length of POST is longer than just the token
+        if len(request.POST) > 1:
+            location = request.POST['WHERE']
+            time = request.POST['WHEN']
+            new_place = (location, time)
+
+            print(new_place)
 
         form = AddPlaceForm()
         context = {

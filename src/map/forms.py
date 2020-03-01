@@ -1,7 +1,8 @@
 from django import forms
 
+class DateInput(forms.DateInput):
+    input_type = 'datetime-local'
+
 class AddPlaceForm(forms.Form):
-    location = forms.CharField()
-    time = forms.DateTimeField(widget=forms.DateTimeInput)
-
-
+    WHERE = forms.CharField()
+    WHEN = forms.DateTimeField(widget=DateInput)
