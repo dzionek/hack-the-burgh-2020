@@ -73,36 +73,101 @@ class GettingData(object):
         return output
 
     @staticmethod
-    def main_function(list_from_input):
-        week1 = GettingData.get_weekly_data(list_from_input)[0]
-        week2 = GettingData.get_weekly_data(list_from_input)[1]
-        week3 = GettingData.get_weekly_data(list_from_input)[2]
-        week4 = GettingData.get_weekly_data(list_from_input)[3]
+    def are_dates_close(dates1, dates2):
+        """
+        takes 2 lists of dates and checks if there is one date that "clashes" with another one
+        """
+        NUM_HOURS_CONTAMINATION = 4
 
-        if len(week1) > 0:
-            temp1 = GettingData.count_per_week(week1)
-            other1 = GettingData.connect_dates(temp1)
-            print(other1)
-        if len(week2) > 0:
-            temp2 = GettingData.count_per_week(week2)
-            other2 = GettingData.connect_dates(temp2)
-            print(other2)
-        if len(week3) > 0:
-            temp3 = GettingData.count_per_week(week3)
-            other3 = GettingData.connect_dates(temp3)
-            print(other3)
-        if len(week4) > 0:
-            temp4 = GettingData.count_per_week(week4)
-            other4 = GettingData.connect_dates(temp4)
-            print(other4)
+        if len(dates1) >= len(dates2):
+            for i in range(len(dates2)):
+                for j in range(len(dates1)):
+                    if abs(dates2[i] - dates1[j]) <= datetime.timedelta(hours=NUM_HOURS_CONTAMINATION):
+                        return True
+        else:
+            for i in range(len(dates1)):
+                for j in range(len(dates2)):
+                    if abs(dates1[i] - dates2[j]) <= datetime.timedelta(hours=NUM_HOURS_CONTAMINATION):
+                        return True
+        return False
 
-    """
     @staticmethod
-    def remove_occurrences(given_list):
- 
-        #to use after the count_per_week method
-        #removes occurrences of a list
- 
-        result = list(dict.fromkeys(given_list))
-        return result
-    """
+    def is_dangerous(list1, list2):
+        """
+        should be in the form as after the method connect_dates
+        takes 2 inputs, one from the contaminated, one from the healthy, and returns true if the healthy one is in danger
+        """
+        if len(list1) >= len(list2):
+            for i in range(len(list2)):
+                place_1 = list2[i][1]
+                dates_1 = list2[i][2]
+                for j in range(len(list2)):
+                    place_2 = list1[j][1]
+                    dates_2 = list1[j][2]
+                    if place_1 == place_2 and GettingData.are_dates_close(dates_1, dates_2):
+                        return True
+        else:
+            for i in range(len(list1)):
+                place_1 = list1[i][1]
+                dates_1 = list1[i][2]
+                for j in range(len(list1)):
+                    place_2 = list2[j][1]
+                    dates_2 = list2[j][2]
+                    if place_1 == place_2 and GettingData.are_dates_close(dates_1, dates_2):
+                        return True
+        return False
+
+    @staticmethod
+    def main_function(corona, healthy):
+        corona_week1 = GettingData.get_weekly_data(corona)[0]
+        corona_week2 = GettingData.get_weekly_data(corona)[1]
+        corona_week3 = GettingData.get_weekly_data(corona)[2]
+        corona_week4 = GettingData.get_weekly_data(corona)[3]
+
+        healthy_week1 = GettingData.get_weekly_data(healthy)[0]
+        healthy_week2 = GettingData.get_weekly_data(healthy)[1]
+        healthy_week3 = GettingData.get_weekly_data(healthy)[2]
+        healthy_week4 = GettingData.get_weekly_data(healthy)[3]
+
+        is_contaminated = False
+
+        if len(corona_week1) > 0:
+            if len(healthy_week1) > 0:
+                corona_temp1 = GettingData.count_per_week(corona_week1)
+                healthy_temp1 = GettingData.count_per_week(healthy_week1)
+                corona_other1 = GettingData.connect_dates(corona_temp1)
+                healthy_other1 = GettingData.connect_dates(healthy_temp1)
+                if GettingData.is_dangerous(corona_other1, healthy_other1):
+                    is_contaminated = True
+
+        if len(corona_week2) > 0:
+            if len(healthy_week2) > 0:
+                corona_temp2 = GettingData.count_per_week(corona_week2)
+                healthy_temp2 = GettingData.count_per_week(healthy_week2)
+                corona_other2 = GettingData.connect_dates(corona_temp2)
+                healthy_other2 = GettingData.connect_dates(healthy_temp2)
+                if GettingData.is_dangerous(corona_other2, healthy_other2):
+                    is_contaminated = True
+
+        if len(corona_week3) > 0:
+            if len(healthy_week3) > 0:
+                corona_temp3 = GettingData.count_per_week(corona_week3)
+            healthy_temp3 = GettingData.count_per_week(healthy_week3)
+            corona_other3 = GettingData.connect_dates(corona_temp3)
+            healthy_other3 = GettingData.connect_dates(healthy_temp3)
+            if GettingData.is_dangerous(corona_other3, healthy_other3):
+                is_contaminated = True
+
+        if len(corona_week4) > 0:
+            if len(healthy_week4) > 0:
+                corona_temp4 = GettingData.count_per_week(corona_week4)
+                healthy_temp4 = GettingData.count_per_week(healthy_week4)
+                corona_other4 = GettingData.connect_dates(corona_temp4)
+                healthy_other4 = GettingData.connect_dates(healthy_temp4)
+                if GettingData.is_dangerous(corona_other4, healthy_other4):
+                    is_contaminated = True
+
+        if is_contaminated:
+            print("You are in trouble")
+        else:
+            print("Don't worry, you are not in trouble")
